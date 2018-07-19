@@ -1,15 +1,15 @@
 <?php 
-	$dir="aaa";
+	$dir="copy_code";
 	function deldir($dir){
 		if (is_dir($dir)) {
 			$files=scandir($dir);
 			foreach ($files as $file) {
 				if ($file!='.'&&$file!='..') {
-					$fileadd=$dir."/".$file;
-					if (is_dir($fileadd)) {
-						deldir($fileadd);
+					$path=$dir."/".$file;
+					if (is_dir($path)) {
+						deldir($path);
 					}else{
-						unlink($fileadd);
+						unlink($path);
 					}
 				}
 			}
