@@ -44,38 +44,41 @@
 				return false;
 			}
 		}
-		// //where方法
-		// public function where($condition,$val){
-		// 	$this->where=$condition."=".$val;
-		// 	echo $this->where;
-		// 	return $this;	
-		// }
+		//where方法
+		public function where($condition,$val){
+			$this->where='where '.$condition."=".$val;
+			return $this;	
+		}
 	
 		// update方法
 		public function update($arr){
-			$id=reset($arr);
-			unset($arr['id']);
-			foreach ($arr as $key => $vals) {
-				$val[]=$key.'=\''.$vals.'\'';
-			}
-			$v = join(",",$val);
-			$sql = " update {$this->table} set $v where id={$id} ";
-			if (mysql_query($sql)) {
-				return ture;
+			if ($this->where) {
+				foreach ($arr as $key => $vals) {
+					$val[]=$key.'=\''.$vals.'\'';
+				}
+				$v = join(",",$val);
+				$sql = " update {$this->table} set $v  {$this->where} ";
+				if (mysql_query($sql)) {
+					return $this;
+				}else{
+					return false;
+				}
 			}else{
-				return false;
+				echo '语法错误没有where()'.'<br>';
 			}
 		}
 
-		public function delete($condition,$val){
-			$con = $condition."=".$val;
 
-			$sql = "delete from {$this->table} where {$con}";
-
-			if(mysql_query($sql)){
-				return ture;
+		public function delete(){
+			if ($this->where) {
+				$sql = "delete from {$this->table} {$this->where}";
+				if(mysql_query($sql)){
+					return $this;
+				}else{
+					return false;
+				}
 			}else{
-				return false;
+				echo '语法错误没有where()'.'<br>';
 			}
 		}
 	}
