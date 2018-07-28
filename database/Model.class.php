@@ -1,23 +1,24 @@
+
 <?php 
+
 	class Model{
 		// 定义属性
 		public $table;
 		public $where;
+		public $pdo;
+
 		// 构造方法
 		public function __construct($t){
 			$this->table=$t;
-			mysql_connect('localhost','root','123456');
-			mysql_query("set names utf-8");
-			mysql_select_db('test');
+			$this->pdo=new PDO('mysql:host=localhost;dbname=test','root','123456');
+			$this->pdo->exec('set names utf8');
 
 		}
 		// 搜索方法
 		public function select($condition="*"){
 			$sql="select {$condition} from {$this->table}";
-			$rst=mysql_query($sql);
-			$rows=mysql_fetch_assoc($rst);
-			if ($rst) {
-				while ($rows=mysql_fetch_assoc($rst)) {
+			if ($rst=$this->pdo->query($sql)) {
+				while ($rows=$rst->fetchAll()) {
 					$row[]=$rows;
 				}
 				return $row;
@@ -38,7 +39,7 @@
 			$v =join(',',$val);
 
 			$sql = "insert into {$this->table}($k) values($v)";
-			if (mysql_query($sql)) {
+			if ($this->pdo->exec($sql)) {
 				return ture;
 			}else{
 				return false;
@@ -58,7 +59,7 @@
 				}
 				$v = join(",",$val);
 				$sql = " update {$this->table} set $v  {$this->where} ";
-				if (mysql_query($sql)) {
+				if ($this->pdo->exec($sql)) {
 					return $this;
 				}else{
 					return false;
@@ -72,7 +73,7 @@
 		public function delete(){
 			if ($this->where) {
 				$sql = "delete from {$this->table} {$this->where}";
-				if(mysql_query($sql)){
+				if($this->pdo->exec($sql)){
 					return $this;
 				}else{
 					return false;

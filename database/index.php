@@ -5,7 +5,7 @@
 	// 查询方法：
 	$rst=table('class')->select();
 
-	//模拟从表单获取需要添加的数据
+	// // 模拟从表单获取需要添加的数据
 	// $arr=array(
 	// 	'name' => 'class6',
 	// 	'username' => 'user6',
@@ -36,9 +36,9 @@
 	// 	echo "修改失败";
 	// }
  	
- //	// 模拟从表单获取需要删除的数据
+ // 	// 模拟从表单获取需要删除的数据
  // 	$arr=array(
-	// 	'id' => '5',
+	// 	'id' => '3',
 	// 	'name' => 'class5',
 	// 	'username' => 'user5',
 	// );
@@ -56,21 +56,28 @@
  	<meta charset="UTF-8">
  	<title>Document</title>
  </head>
+ <link rel="stylesheet" href="bs/css/bootstrap.css">
+ <script src="bs/js/jquery.js"></script>
+ <script src="bs/js/bootstrap.js"></script>
  <body>
- 	<table border=1 width="500px">
- 		<tr>
-			<th>ID</th>
-			<th>class</th>
-			<th>username</th>
- 		</tr>
- 		<?php foreach ($rst as $key => $value) { ?>
-			<tr>
-				<td><?php echo $value['id'] ?></td>
-				<td><?php echo $value['name'] ?></td>
-				<td><?php echo $value['username'] ?></td>
-			</tr>
- 		<?php } ?>
- 	</table>
-
+ 	<div class='container'> 
+	 	<h1 class="page-header">CLASS表：</h1>
+	 	<table class="table table-hover table-striped table-bordered text-center">
+	 		<tr>
+				<th>ID</th>
+				<th>class</th>
+				<th>username</th>
+	 		</tr>
+	 		<?php foreach ($rst as $key => $vals) { ?>
+				<?php foreach ($vals as $key => $value) { ?>
+					<tr>
+						<td><?php echo $value['id'] ?></td>
+						<td><?php echo $value['name'] ?></td>
+						<td><?php echo $value['username'] ?></td>
+					</tr>
+	 			<?php } ?>
+	 		<?php } ?>
+	 	</table>
+ 	</div>
  </body>
  </html>
